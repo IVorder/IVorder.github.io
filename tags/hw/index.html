@@ -346,30 +346,34 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/12/19/初入elk/" >
+        <a class="abstract-title" href = "/2019/07/01/记一次防守总结/" >
             
-                <span>初入ELK</span>
+                <span>记一次防守总结</span>
         </a>
         <div class="abstract-content">
             
-/*本环境使用docker-elk搭建*/
+为期20天的某行动终于结束，期间见识到不少攻方大佬的神仙操作，也从我方大佬学习到不少防守/应急方面的知识。为此我打算梳理下近期学习/感悟到的一些知识点。
 
-准备阶段环境搭建安装docker12curl -fsSL https://get.docker.com -o get-docker.shsudo sh get-docker.sh
-安装docker-compose:1.61pip install docker-compose==1.6
-clone  docker-elk代码1git clone https://github.com/deviantony/docker-elk.git
-于docker-elk目录使用1docker-compose up
-[!] 如果遇到invalid refer...
+资产整理阶段
+资产整理
+
+初期的资产整理相当重要，尤其需要联合企业对内网系统的（网站名/域名/ip/框架/脚本/中间件/版本号/系统/补丁情况）等一系列资产信息做成excel表，方便进入正式防守阶段的应急响应/问题定位速度。高亮标注互联网资产，方便应对初期的外部攻击。
+
+划分好内网情况
+
+各个网段对应的办公区域如：10.1.2 对应开发部10.1.3 对应营销部
+防守阶段提高防守效率首先作为防守方，由于被动获取信息量太过庞大，为此我...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/19</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/01</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ELK">ELK</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "hw">hw</a>
     
 </div>
             

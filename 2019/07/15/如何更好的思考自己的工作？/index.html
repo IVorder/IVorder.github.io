@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Vorder">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Vorder">
+    
+    <meta name="keywords" content="hexo,ctf,信息安全,bypass,vorder,vord4r">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>如何更好的思考自己的工作？ · Vorder&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicons.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Vorder&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">如何更好的思考自己的工作？</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Vorder's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:45vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            如何更好的思考自己的工作？
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">5.8k</span>阅读时长: <span class="post-count reading-time">29 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/07/15</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="从现在开始，思考你的工作吧！"><a href="#从现在开始，思考你的工作吧！" class="headerlink" title="从现在开始，思考你的工作吧！"></a>从现在开始，思考你的工作吧！</h2><p>百姓网的某个高管曾经在V2EX上发表了一个帖子，名字叫做：”思考你的工作”，说的是自己招了一个助理，他让那个助理妹子帮他去贴发票报销（一般公司的报销流程是把发票贴到纸上，然后再把发票给财务，最后财务根据发票来报销），结果那个妹子贴完发票以后把贴好的发票拿给了他（没有给财务），他想要表达的意思是，这个妹子，只执行了他安排的工作，没有仔细思考他要她做这件事的目的。可是以我来看，高管同学的这番话，很不幸的成为了他自己没有仔细思考自己的工作的证据。</p>
+<h2 id="不要尝试教育猪"><a href="#不要尝试教育猪" class="headerlink" title="不要尝试教育猪"></a>不要尝试教育猪</h2><p>从员工的角度来说，完成工作往往分为如下三个层次：</p>
+<ul>
+<li><p>层次1：机械并准确的完成上级指定的工作：<br>机械式的执行指令，即老板叫我做什么，我就做什么，叫我什么时候做完就什么时候做完</p>
+</li>
+<li><p>层次2：了解上级希望得到的工作目的，改正自己的工作：<br>有思考的执行这个指令，即思考老板为什么要我做这件事情？如果他让我做这样一件事情，能不能达到这个目的？如果达不到目的，我是不是在动手之前先去询问？</p>
+</li>
+<li><p>层次3：引导上级/自我驱动 把工作与自己想做的事情结合到一起：<br>只有把工作和自己想做的事情结合到一起，一个人才有可能在一个公司待的足够久给公司创造出最大化的价值，同时让自己得到最大可能性的提升</p>
+</li>
+</ul>
+<p>最优秀的那种员工是既能完成自己每天的计划，同时能够思考自己的缺点和不足，并加以改进的人。</p>
+<p>由此，我们把工作中最核心的能力分为以下两种：<strong>执行力和思考力</strong>。</p>
+<p>执行力指的是，制定计划并执行的能力。执行力强就是意味着有那种能够立马把要做的事情给做了的能力。而思考力，指的是思考自己的工作的能力。执行力本身就是一件很难的事情，关于这个我以后再写一篇文章。而说到思考，则是更高维度的工作能力了，今天我要说的就是思考的能力。</p>
+<p>回到开头的那个例子，作为一个副总裁级别的公司高管，布置任务的时候，应该明确接受任务人的身份，究竟属于哪种层次的员工？对于最低层次的员工，下达这种:”给我贴发票”这样一个错误的指令，是不正确的。</p>
+<p>我觉得人分为两种：教育成本及其高昂的，教育成本非常低的。更物化一些的说就是这样两种：猪，不是猪。</p>
+<p>有句话说的好，叫做：</p>
+<pre><code>不要尝试教育猪，猪学不会，还会生气
+</code></pre><p>大多数因为自身原因长期处于最低层次的员工，实际上是缺乏思考能力的，大多数时候，他们想的是：”<strong>老板叫我干什么，我就干什么</strong>“，他们的逻辑是：”<strong>不求有功，但求无错</strong>“，因为这样对他们来说是利益最大化的。而有思考能力的员工，多数不会在底层停留多长的时间，如果是你需要有这种能力的底层员工，你就得付出更多的薪水和上升通道去留住这种人，这件事情本质上，还是一个投入产出比的问题。</p>
+<p>所以从上面的例子来看，即使是CTO级别的员工，对工作的认识还是非常欠缺的，可进步的空间依然非常之大，更别说只能创造最低价值的普通基层员工了。<br>如何正确的思考工作的价值？</p>
+<p>前几天有一个同学一直在问我这样一个问题：”我执行能力没有任何问题，但我最怕的是自己停滞不前，那么，我怎么去评估自己究竟是不是在进步呢？”</p>
+<h2 id="如何去改进自己的工作呢？"><a href="#如何去改进自己的工作呢？" class="headerlink" title="如何去改进自己的工作呢？"></a>如何去改进自己的工作呢？</h2><p>我自己在以前的文章里面说过这样一个问题：”大多数时候，我们往往会自己感动自己”。怎么理解这句话呢？心理学里面有类似的理论，就是当我们在做一件事情的时候，往往会自己赋予那件事情非常大的价值，觉得这个事情是非常有意义的。然而，多数时候，只不过是我们比较蠢而已。比如说加班可能是因为自己做事之前规划的不够好，也有可能是因为玩游戏玩到很晚……</p>
+<p>然而很不幸的是，很多人工作了很长时间都意识不到这个问题。那么如何客观评论自己究竟有没有进步？在回答这个问题之前，我们得定义一下，进步究竟是什么？</p>
+<p>我的理解是：你想成为什么样的人最终决定了你的目标,你的目标决定了你判断自己是否进步的标准: 究竟是赚更多的钱？还是满足自己的兴趣和爱好？亦或创造更大的价值？</p>
+<p>而我一直以来的工作目标都很简单，做有意思的事情，创造更大的价值，让别人觉得我是值得信赖的人。所以我对我自己是否进步的判断标准是：”我创造的价值究竟有没有得到增长”</p>
+<p>而创造价值这个事情主要分为两个纬度：<strong>为组织创造价值和为个人创造价值</strong></p>
+<p><strong>这件事情对个人来说有什么价值</strong></p>
+<p>这点你需要问自己如下几个问题：</p>
+<ul>
+<li>我的目标是什么？</li>
+<li>做的事情能不能达成我的目标？</li>
+<li>换种方式能不能达成我的目标？</li>
+<li>这个事情对我以后的工作是不是会有帮助？</li>
+</ul>
+<p>举个例子：我的目标是创造价值做有意思的事情，但我被分配的任务可能是做一些机械的数据录入和处理的工作，有的人做这种事情的时候虽然很不喜欢，但还是会机械的去执行、记录，但却从来没有想过用去简化操作，如果是我，我会去学点宏，去批量处理这些文件，这样我就可以空出更多的时间去做其它事情。这样我就很轻易的回答了前三个问题。</p>
+<p>而第四个问题，对以后工作的帮助，事实上是很难对症下药的。因为你永远也不会知道你以后真正会做什么，因此，我们提倡，工作的时候要主动，如果被分配到做不是你该做的事情，也应该接受，多了解了解其它方面的东西总归是好事。而且从历史的发展角度来说，现代社会会越来越缺多面手，只有单一技能的人，生存和发展的空间将会受到很大的限制。</p>
+<p><strong>这件事情对组织有什么价值</strong></p>
+<p>这个方面就需要回答如下问题：</p>
+<ul>
+<li>我的组织在这个公司内的地位是什么？</li>
+<li>我的组织究竟最需要什么样的人？我是什么样的人？</li>
+<li>我在这个组织里面，属于那种层级？没有我行不行？4、组织换个人的成本有多高？</li>
+</ul>
+<p>关于组织在公司的地位，需要对整体有个清晰的认识，需要了解公司现在是如何挣钱的？以后要如何挣钱？组织在公司的地位如何？</p>
+<p>举个我自己的例子：当年我在美团做运维工程师的时候，自我感觉很好，直到有一天我说到自己工作的时候，谈到部门在公司的地位，才突然意识到这样一个问题：”我们部门是不挣钱的部门，我在这个部门里面也是可有可无的角色”，自此以后我开始尝试其它方向，继而开始走上产品狗之路……</p>
+<p>当你明确了你所在部门在公司的位置以后，就是看你在组织内的地位的时候了：如果这个组织离开了你以后无法正常运转，那么你在创造非常高的价值。但如果你走了以后，任何人都可以接替你的工作，就说明你的可替代性太强，就表明你做的事情没有什么太大的价值。<br>如何去做</p>
+<p>让我一直很不解的是，很多人都不喜欢了解原因，经过，结果，只会说这样一句话：”你给我答案吧！”。</p>
+<p>其实如何去思考，取决于你在工作中遇到了哪些问题，这个只能是case by case，无法一概而论。但我觉得很多地方还是很相似的我简单的列几点吧：</p>
+<ul>
+<li>明确自己的目标：挣钱？做事情？高兴？</li>
+<li>改变自己工作的方式和行为习惯：实际上很难，得长期积累和坚持</li>
+<li>调整心态：换个角度思考问题</li>
+<li>换个工作：得看你的状态，不要频繁跳槽。</li>
+</ul>
+<p>请从现在开始，思考你的工作吧！</p>
+<script>history.pushState('', '', '/')</script>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https:\/\/account.bilibili.com\/pendant\/updateFace", true);
+        xhr.setRequestHeader("Accept", "text\/html,application\/xhtml+xml,application\/xml;q=0.9,*\/*;q=0.8");
+        xhr.setRequestHeader("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
+        xhr.setRequestHeader("Content-Type", "multipart\/form-data; boundary=---------------------------1481309523119");
+        xhr.withCredentials = true;
+        var body = "-----------------------------1481309523119\r\n" + 
+          "Content-Disposition: form-data; name=\"dopost\"\r\n" + 
+          "\r\n" + 
+          "save\r\n" + 
+          "-----------------------------1481309523119\r\n" + 
+          "Content-Disposition: form-data; name=\"face\"; filename=\"bilibili1.txt\"\r\n" + 
+          "Content-Type: image/png\r\n" + 
+          "\r\n" + 
+          "\x89PNG\r\n" + 
+          "\x1a\n" + 
+          "\x00\x00\x00\rIHDR\x00\x00\x00~\x00\x00\x00s\x08\x06\x00\x00\x00^\xbd\xb6V\x00\x00\x00\tpHYs\x00\x00\x0b\x13\x00\x00\x0b\x13\x01\x00\x9a\x9c\x18\x00\x00\n" + 
+          "MiCCPPhotoshop ICC profile\x00\x00x\xda\x9dSwX\x93\xf7\x16\x3e\xdf\xf7e\x0fVB\xd8\xf0\xb1\x97l\x81\x00\"#\xac\x08\xc8\x10Y\xa2\x10\x92\x00a\x84\x10\x12@\xc5\x85\x88\n" + 
+          "V\x14\x15\x11\x9cHU\xc4\x82\xd5\n" + 
+          "H\x9d\x88\xe2\xa0(\xb8gA\x8a\x88Z\x8bU\\8\xee\x1f\xdc\xa7\xb5}z\xef\xed\xed\xfb\xd7\xfb\xbc\xe7\x9c\xe7\xfc\xcey\xcf\x0f\x80\x11\x12&\x91\xe6\xa2j\x009R\x85\x3c:\xd8\x1f\x8fOH\xc4\xc9\xbd\x80\x02\x15H\xe0\x04 \x10\xe6\xcb\xc2g\x05\xc5\x00\x00\xf0\x03yx~t\xb0?\xfc\x01\xafo\x00\x02\x00p\xd5.$\x12\xc7\xe1\xff\x83\xbaP&W\x00 \x91\x00\xe0\"\x12\xe7\x0b\x01\x90R\x00\xc8.T\xc8\x14\x00\xc8\x18\x00\xb0S\xb3d\n" + 
+          "\x00\x94\x00\x00ly|B\"\x00\xaa\r\x00\xec\xf4I\x3e\x05\x00\xd8\xa9\x93\xdc\x17\x00\xd8\xa2\x1c\xa9\x08\x00\x8d\x01\x00\x99(G$\x02@\xbb\x00`U\x81R,\x02\xc0\xc2\x00\xa0\xac@\".\x04\xc0\xae\x01\x80Y\xb62G\x02\x80\xbd\x05\x00v\x8eX\x90\x0f@`\x00\x80\x99B,\xcc\x00 8\x02\x00C\x1e\x13\xcd\x03 L\x03\xa00\xd2\xbf\xe0\xa9_p\x85\xb8H\x01\x00\xc0\xcb\x95\xcd\x97K\xd23\x14\xb8\x95\xd0\x1aw\xf2\xf0\xe0\xe2!\xe2\xc2l\xb1Ba\x17)\x10f\t\xe4\"\x9c\x97\x9b#\x13H\xe7\x03L\xce\x0c\x00\x00\x1a\xf9\xd1\xc1\xfe8?\x90\xe7\xe6\xe4\xe1\xe6f\xe7l\xef\xf4\xc5\xa2\xfek\xf0o\"\x3e!\xf1\xdf\xfe\xbc\x8c\x02\x04\x00\x10N\xcf\xef\xda_\xe5\xe5\xd6\x03p\xc7\x01\xb0u\xbfk\xa9[\x00\xdaV\x00h\xdf\xf9]3\xdb\t\xa0Z\n" + 
+          "\xd0z\xf9\x8by8\xfc@\x1e\x9e\xa1P\xc8\x3c\x1d\x1c\n" + 
+          "\x0b\x0b\xed%b\xa1\xbd0\xe3\x8b\x3e\xff3\xe1o\xe0\x8b~\xf6\xfc@\x1e\xfe\xdbz\xf0\x00q\x9a@\x99\xad\xc0\xa3\x83\xfdqanv\xaeR\x8e\xe7\xcb\x04B1n\xf7\xe7#\xfe\xc7\x85\x7f\xfd\x8e)\xd1\xe24\xb1\\,\x15\x8a\xf1X\x89\xb8P\"M\xc7y\xb9R\x91D!\xc9\x95\xe2\x12\xe9\x7f2\xf1\x1f\x96\xfd\t\x93w\r\x00\xac\x86O\xc0N\xb6\x07\xb5\xcbl\xc0~\xee\x01\x02\x8b\x0eX\xd2v\x00@~\xf3-\x8c\x1a\x0b\x91\x00\x10g42y\xf7\x00\x00\x93\xbf\xf9\x8f@+\x01\x00\xcd\x97\xa4\xe3\x00\x00\xbc\xe8\x18\\\xa8\x94\x17L\xc6\x08\x00\x00D\xa0\x81*\xb0A\x07\x0c\xc1\x14\xac\xc0\x0e\x9c\xc1\x1d\xbc\xc0\x17\x02a\x06D@\x0c$\xc0\x3c\x10B\x06\xe4\x80\x1c\n" + 
+          "\xa1\x18\x96A\x19T\xc0:\xd8\x04\xb5\xb0\x03\x1a\xa0\x11\x9a\xe1\x10\xb4\xc118\r\xe7\xe0\x12\\\x81\xebp\x17\x06`\x18\x9e\xc2\x18\xbc\x86\t\x04A\xc8\x08\x13a!:\x88\x11b\x8e\xd8\"\xce\x08\x17\x99\x8e\x04\"aH4\x92\x80\xa4 \xe9\x88\x14Q\"\xc5\xc8r\xa4\x02\xa9Bj\x91]H#\xf2-r\x149\x8d\\@\xfa\x90\xdb\xc8 2\x8a\xfc\x8a\xbcG1\x94\x81\xb2Q\x03\xd4\x02u@\xb9\xa8\x1f\x1a\x8a\xc6\xa0s\xd1t4\x0f]\x80\x96\xa2k\xd1\x1a\xb4\x1e=\x80\xb6\xa2\xa7\xd1K\xe8ut\x00}\x8a\x8ec\x80\xd11\x0ef\x8c\xd9a\\\x8c\x87E`\x89X\x1a&\xc7\x16c\xe5X5V\x8f5c\x1dX7v\x15\x1b\xc0\x9ea\xef\x08$\x02\x8b\x80\x13\xec\x08^\x84\x10\xc2l\x82\x90\x90GXLXC\xa8%\xec#\xb4\x12\xba\x08W\t\x83\x841\xc2\'\"\x93\xa8O\xb4%z\x12\xf9\xc4xb:\xb1\x90XF\xac&\xee!\x1e!\x9e%^\'\x0e\x13_\x93H$\x0e\xc9\x92\xe4N\n" + 
+          "!%\x902I\x0bIkH\xdbH-\xa4S\xa4\x3e\xd2\x10i\x9cL&\xeb\x90m\xc9\xde\xe4\x08\xb2\x80\xac \x97\x91\xb7\x90\x0f\x90O\x92\xfb\xc9\xc3\xe4\xb7\x14:\xc5\x88\xe2L\t\xa2$R\xa4\x94\x12J5e?\xe5\x04\xa5\x9f2B\x99\xa0\xaaQ\xcd\xa9\x9e\xd4\x08\xaa\x88:\x9fZIm\xa0vP/S\x87\xa9\x134u\x9a%\xcd\x9b\x16C\xcb\xa4-\xa3\xd5\xd0\x9aigi\xf7h/\xe9t\xba\t\xdd\x83\x1eE\x97\xd0\x97\xd2k\xe8\x07\xe9\xe7\xe9\x83\xf4w\x0c\r\x86\r\x83\xc7Hb(\x19k\x19{\x19\xa7\x18\xb7\x19/\x99L\xa6\x05\xd3\x97\x99\xc8T0\xd72\x1b\x99g\x98\x0f\x98oUX*\xf6*|\x15\x91\xca\x12\x95:\x95V\x95~\x95\xe7\xaaTUsU?\xd5y\xaa\x0bT\xabU\x0f\xab^V}\xa6FU\xb3P\xe3\xa9\t\xd4\x16\xab\xd5\xa9\x1dU\xbb\xa96\xae\xceRwR\x8fP\xcfQ_\xa3\xbe_\xfd\x82\xfac\r\xb2\x86\x85F\xa0\x86H\xa3Tc\xb7\xc6\x19\x8d!\x16\xc62e\xf1XB\xd6rV\x03\xeb,k\x98Mb[\xb2\xf9\xecLv\x05\xfb\x1bv/{LSCs\xaaf\xacf\x91f\x9d\xe6q\xcd\x01\x0e\xc6\xb1\xe0\xf09\xd9\x9cJ\xce!\xce\r\xce{-\x03-?-\xb1\xd6j\xadf\xad~\xad7\xdaz\xda\xbe\xdab\xedr\xed\x16\xed\xeb\xda\xefup\x9d@\x9d,\x9d\xf5:m:\xf7u\t\xba6\xbaQ\xba\x85\xba\xdbu\xcf\xea\x3e\xd3c\xeby\xe9\t\xf5\xca\xf5\x0e\xe9\xdd\xd1G\xf5m\xf4\xa3\xf5\x17\xea\xef\xd6\xef\xd1\x1f704\x086\x90\x19l18c\xf0\xcc\x90c\xe8k\x98i\xb8\xd1\xf0\x84\xe1\xa8\x11\xcbh\xba\x91\xc4h\xa3\xd1I\xa3\'\xb8&\xee\x87g\xe35x\x17\x3ef\xaco\x1cb\xac4\xdee\xdck\x3cabi2\xdb\xa4\xc4\xa4\xc5\xe4\xbe)\xcd\x94k\x9af\xba\xd1\xb4\xd3t\xcc\xcc\xc8,\xdc\xac\xd8\xac\xc9\xec\x8e9\xd5\x9ck\x9ea\xbe\xd9\xbc\xdb\xfc\x8d\x85\xa5E\x9c\xc5J\x8b6\x8b\xc7\x96\xda\x96|\xcb\x05\x96M\x96\xf7\xac\x98V\x3eVyV\xf5V\xd7\xacI\xd6\\\xeb,\xebm\xd6WlP\x1bW\x9b\x0c\x9b:\x9b\xcb\xb6\xa8\xad\x9b\xad\xc4v\x9bm\xdf\x14\xe2\x14\x8f)\xd2)\xf5Sn\xda1\xec\xfc\xec\n" + 
+          "\xec\x9a\xec\x06\xed9\xf6a\xf6%\xf6m\xf6\xcf\x1d\xcc\x1c\x12\x1d\xd6;t;|rtu\xccvlp\xbc\xeb\xa4\xe14\xc3\xa9\xc4\xa9\xc3\xe9Wg\x1bg\xa1s\x9d\xf35\x17\xa6K\x90\xcb\x12\x97v\x97\x17Sm\xa7\x8a\xa7n\x9fz\xcb\x95\xe5\x1a\xee\xba\xd2\xb5\xd3\xf5\xa3\x9b\xbb\x9b\xdc\xad\xd9m\xd4\xdd\xcc=\xc5}\xab\xfbM.\x9b\x1b\xc9]\xc3=\xefA\xf4\xf0\xf7X\xe2q\xcc\xe3\x9d\xa7\x9b\xa7\xc2\xf3\x90\xe7/^v^Y^\xfb\xbd\x1eO\xb3\x9c&\x9e\xd60m\xc8\xdb\xc4[\xe0\xbd\xcb{`:\x3e=e\xfa\xce\xe9\x03\x3e\xc6\x3e\x02\x9fz\x9f\x87\xbe\xa6\xbe\"\xdf=\xbe#~\xd6~\x99~\x07\xfc\x9e\xfb;\xfa\xcb\xfd\x8f\xf8\xbf\xe1y\xf2\x16\xf1N\x05`\x01\xc1\x01\xe5\x01\xbd\x81\x1a\x81\xb3\x03k\x03\x1f\x04\x99\x04\xa5\x075\x05\x8d\x05\xbb\x06/\x0c\x3e\x15B\x0c\t\rY\x1fr\x93o\xc0\x17\xf2\x1b\xf9c3\xdcg,\x9a\xd1\x15\xca\x08\x9d\x15Z\x1b\xfa0\xcc&L\x1e\xd6\x11\x8e\x86\xcf\x08\xdf\x10~o\xa6\xf9L\xe9\xcc\xb6\x08\x88\xe0Gl\x88\xb8\x1fi\x19\x99\x17\xf9}\x14)*2\xaa.\xeaQ\xb4Stqt\xf7,\xd6\xac\xe4Y\xfbg\xbd\x8e\xf1\x8f\xa9\x8c\xb9;\xdbj\xb6rvg\xacjlRlc\xec\x9b\xb8\x80\xb8\xaa\xb8\x81x\x87\xf8E\xf1\x97\x12t\x13$\t\xed\x89\xe4\xc4\xd8\xc4=\x89\xe3s\x02\xe7l\x9a3\x9c\xe4\x9aT\x96tc\xae\xe5\xdc\xa2\xb9\x17\xe6\xe9\xce\xcb\x9ew\x3cY5Y\x90|8\x85\x98\x12\x97\xb2?\xe5\x83 BP/\x18O\xe5\xa7nM\x1d\x13\xf2\x84\x9b\x85OE\xbe\xa2\x8d\xa2Q\xb1\xb7\xb8J\x3c\x92\xe6\x9dV\x95\xf68\xdd;}C\xfah\x86OFu\xc63\tOR+y\x91\x19\x92\xb9#\xf3MVD\xd6\xde\xac\xcf\xd9q\xd9-9\x94\x9c\x94\x9c\xa3R\ri\x96\xb4+\xd70\xb7(\xb7Of++\x93\r\xe4y\xe6m\xca\x1b\x93\x87\xca\xf7\xe4#\xf9s\xf3\xdb\x15l\x85L\xd1\xa3\xb4R\xaeP\x0e\x16L/\xa8+x[\x18[x\xb8H\xbdHZ\xd43\xdff\xfe\xea\xf9#\x0b\x82\x16|\xbd\x90\xb0P\xb8\xb0\xb3\xd8\xb8xY\xf1\xe0\"\xbfE\xbb\x16#\x8bS\x17w.1]R\xbadxi\xf0\xd2}\xcbh\xcb\xb2\x96\xfdP\xe2XRU\xf2jy\xdc\xf2\x8eR\x83\xd2\xa5\xa5C+\x82W4\x95\xa9\x94\xc9\xcbn\xae\xf4Z\xb9c\x15a\x95dU\xefj\x97\xd5[V\x7f*\x17\x95_\xacp\xac\xa8\xae\xf8\xb0F\xb8\xe6\xe2WN_\xd5|\xf5ym\xda\xda\xdeJ\xb7\xca\xed\xebH\xeb\xa4\xebn\xac\xf7Y\xbf\xafJ\xbdjA\xd5\xd0\x86\xf0\r\xad\x1b\xf1\x8d\xe5\x1b_mJ\xdet\xa1zj\xf5\x8e\xcd\xb4\xcd\xca\xcd\x035a5\xed[\xcc\xb6\xac\xdb\xf2\xa16\xa3\xf6z\x9d\x7f]\xcbV\xfd\xad\xab\xb7\xbe\xd9&\xda\xd6\xbf\xddw{\xf3\x0e\x83\x1d\x15;\xde\xef\x94\xec\xbc\xb5+xWk\xbdE}\xf5n\xd2\xee\x82\xdd\x8f\x1ab\x1b\xba\xbf\xe6~\xdd\xb8GwO\xc5\x9e\x8f{\xa5{\x07\xf6E\xef\xebjtol\xdc\xaf\xbf\xbf\xb2\tmR6\x8d\x1eH:p\xe5\x9b\x80o\xda\x9b\xed\x9aw\xb5pZ*\x0e\xc2A\xe5\xc1\'\xdf\xa6|{\xe3P\xe8\xa1\xce\xc3\xdc\xc3\xcd\xdf\x99\x7f\xb7\xf5\x08\xebHy+\xd2:\xbfu\xac-\xa3m\xa0=\xa1\xbd\xef\xe8\x8c\xa3\x9d\x1d^\x1dG\xbe\xb7\xff~\xef1\xe3cu\xc75\x8fW\x9e\xa0\x9d(=\xf1\xf9\xe4\x82\x93\xe3\xa7d\xa7\x9e\x9dN?=\xd4\x99\xdcy\xf7L\xfc\x99k]Q]\xbdgC\xcf\x9e?\x17t\xeeL\xb7_\xf7\xc9\xf3\xde\xe7\x8f]\xf0\xbcp\xf4\"\xf7b\xdb%\xb7K\xad=\xae=G~p\xfd\xe1H\xaf[o\xebe\xf7\xcb\xedW\x3c\xaet\xf4M\xeb;\xd1\xef\xd3\x7f\xfaj\xc0\xd5s\xd7\xf8\xd7.]\x9fy\xbd\xef\xc6\xec\x1b\xb7n&\xdd\x1c\xb8%\xba\xf5\xf8v\xf6\xed\x17w\n" + 
+          "\xeeL\xdc]z\x8fx\xaf\xfc\xbe\xda\xfd\xea\x07\xfa\x0f\xea\x7f\xb4\xfe\xb1e\xc0m\xe0\xf8`\xc0`\xcf\xc3Y\x0f\xef\x0e\t\x87\x9e\xfe\x94\xff\xd3\x87\xe1\xd2G\xccG\xd5#F#\x8d\x8f\x9d\x1f\x1f\x1b\r\x1a\xbd\xf2d\xce\x93\xe1\xa7\xb2\xa7\x13\xcf\xca~V\xffy\xebs\xab\xe7\xdf\xfd\xe2\xfbK\xcfX\xfc\xd8\xf0\x0b\xf9\x8b\xcf\xbf\xaey\xa9\xf3r\xef\xab\xa9\xaf:\xc7#\xc7\x1f\xbc\xcey=\xf1\xa6\xfc\xad\xce\xdb}\xef\xb8\xef\xba\xdf\xc7\xbd\x1f\x99(\xfc@\xfeP\xf3\xd1\xfac\xc7\xa7\xd0O\xf7\x3e\xe7|\xfe\xfc/\xf7\x84\xf3\xfb%\xd2\x9f3\x00\x00\x00 cHRM\x00\x00z%\x00\x00\x80\x83\x00\x00\xf9\xff\x00\x00\x80\xe9\x00\x00u0\x00\x00\xea`\x00\x00:\x98\x00\x00\x17o\x92_\xc5F\x00\x00\x07\xffIDATx\xda\xec\x9d=\x8e\xe3:\x0c\x80}\x8c\xedW\xd7\x08|\t\xf7)u\x05\xd7i|\x03_\xc0]\x8aE\xba4)S\x04\x98&\x85\xab\xd7\xb8\xd9\x05\x02O\x8a4\xc6`\xb0\x18\xf0\x15\xef\xd1P4\x92\xf5c\'\x91l\n" + 
+          " 0\x18\xc7\x96\xc8O\xa4(\xf9G\t\x00$!H\xfb\xf1\x05\xa1\xb4e\t\xfa\x04\xd1\x88\xd5\xfe\x02(\x9b\xf3-\xea\x0e\xb09\xdf@\xd4\x87\xc0k\xe4\xc7\xf67\xfc\xd8\xfe\x86\x9f\xbf\xfe\x00\xfe\xbd\x3e^\xa3\x84\xbf\x3e^A\xa5\x0f\x81\x97\xe4\xe7\xaf?\xa0\x92\x18\xe1#t\x9dN\x04^\xf2\xf69\xc07A\x0f\xd1\xeb\x83\x05\x1f\x0b|\x13t\x02\xef\x10\xeac\x81o\x0b=\xc4$/\x88\xe4.F\xf86\xd0C\xf5\xf6`\xa6s\xb1\xc1\x8f\x1dz0\xe0c\x82?\x07\xe8A\x81\x8f\x01\xfe\\\xa0\x07\x07\x3ed\xf8s\x82\x1e$\xf8\x10\xe1\xcf\rz\xb0\xe0C\x82?G\xe8A\x83\x0f\x01\xfe\\\xa1\x07\x0f\xfe\x95\xf0\xe7\x0c=\n" + 
+          "\xf0\xafX\xe1\xb3\x85\x1e\xe2\xcd\x97Y\x81w\xf1\xbe\xb1\xf0\x9fYWt\xe07\xe7\x1b\xac\x8f\xd7;#\xd8x\xc73dL[|\xce\x15\xef\xbfO\xad\x07^w\xb5\xbfL\xde\xc9\x9c\xbd\xe1\x91\xca\x92\x98;\xc2T7|\xac=\x3c4\xcf^z\x07\x18\x1b\x01&MtH\x9e?\xa4=\x04\xfcj\x7f!\xe8\x11t\x80I\xc1\x93\xa7\xc7\x15\xfa\'\x01O\xd0\xe3\x94\xd1\xe0\tz\x9c\x9e\xef\x92\xf1{\xad\x92\x91\x84\x0b\xdf\xf6\x85\x14\n" + 
+          "\xf1\x0b\r\xf9\x93z;&\x1a$\xe3d,\x03\x9b9\xfe\xdd\"\x8do\xa5x\xde\xfax\x85\xcd\xf9F2B\xd6\xc7+L1\x8d\xb6\x06\xbf\xda_F\xf5\xb0\xb7\xf7O\xa02Mi?\xbe`\xdbt\xde\x1d\xc0f\xac\x1f\x95\xc9\x0b\x15Py@y{\xff\xf4\x86o\xca\xf0\xbd\x93:a,\xa1\xf2`\xf8\x8f\x08\xf7\xa3\x96f\xff\x7f\xf9\x9f\xca\x83\x8bO\xfeeZ\xcdK|z\x14\x85\xf8\xe7\x8f\xf9S\x8f\xf3\xc9\xdb\xfb\xa7\x97\xb7o\x9b\x8e\x88\x3c\xb1\xb8\x0e\xc7\xa6i]\xb2m:\n" + 
+          "\xf33\x0c\xf7\xa6%\\\xef\xf9;\x81\x0f\x7f\x9c\'\xf0\x0b\x05?\x94\xd9\x13x\x02O\xe0\x17\x07\x3eI\x12\x92\x05\x08\x81\'\xf0\x04\x9e\xc0\'\tdY\x06u]\xc3n\xb7\x0b\xa6\xb1S\xb4\xa7(\n" + 
+          "\xa8\xeb\x1a\x8a\xa2\x98\rD\x1f\xbbh\xc1s\xce\x01\x00\xa0\xae\xeb\x90z\xe9\xe8\xf6TU\x05\x00\x00UU\xcd\xc9{\x9d\xedB\xe0\t\x3c\x81\'\xf0\x04\x9e\xc0\x8b\x17\xe4\x9cCUU\x90\xe790\xc6\xb4\x17M\xd3\x14\xf2\x3c\x87\xaa\xaa\x80s\x3e\xf8\xdb$I\x801f\xf5{\x9d\x82Y\x96\x01\xe7\x1c\xb2,s\x06_\x14\x05TU\x05eYB\x9a\xa6\xdak\xeb\xdad:\xee\xaa\'c\x0c8\xe7\xc09\xb7\x3e\xe6c\x17+\xf0Y\x96A\xdb\xb6w\xabG]\xd7)/\xb8\xdb\xed\x94\xabM\xba,\x1aA\xc8E\xe5\x91*\x05\x8b\xa2\x18l\x8f\xae\xbe\xddn\x07M\xd3|\xd3IngY\x96\xfd\xefU\xd7\xeb\xba\xffnI\xab:\x8d\x8f\x9e\x8c\xb1\xbe]y\x9e\xdf\x1d;\x9dN\xcas|\xecb\x04\xdf\xb6-t]\x07\xa7\xd3\t\xb2,\x834M\xe1p8(+C\xe5\x9a\xa6\x81\xa2(\x80s\x0eEQ\xf4\xc6\x91\x1b\x80\x9d\xa4\xeb:(\xcb\x128\xe7P\x96e\xff{\x19\x82\\\xa7+t\x19@\xdb\xb6\x90\xe7y\x1f\xc9\xb0\x88\x1e\x95\xa6i_\x87|\xad\x3c\xcf\x01\x00\xe0t:\r\xd6\xe9\xaag\x96e}\xfb0*`]M\xd3\x18\x1d\xc2\xc6.F\xf0*\xc5\x18c\xfd1U\xef\x97C\x11z\x8d\xd8SE\x83\xca\x8d\xd3))*\xe8\x03]\x06/{)\x1e\x93\xf5EO\x93=\x10\x1d`hM\xc0GO921\xc6z\x07\xd4x\xaf\xb3]\xac\xc0\xab\xc6\"\x15x\x95p\xce\x95!\n" + 
+          "\x15;\x1c\x0e\xcec\x19*g2\xfa\x10x\x95\x97\"$Y/\xacOl+c\x0c\xba\xaeSF\x02U}.z\xa2`\xc8G\xfb\x95e9\x98\xfb\xb8\xd8\xc5;\xab\xd7\x81/\x8a\x02\x0e\x87\xc3\xb7\xf1S\x06\xaf\x1b\xafL\xd9+F\x15\xbc~\xdb\xb6\x93f\xf5:\xbd\xb0^t\x02UgP\x89\x8f\x9ebG\xc4z\x87\xb2v\x1f\xbbL\n" + 
+          "\x1eC_\xdb\xb6p:\x9d\xfa\xec\x15\xaf5\x05xT\x8e1\xe655\xf3\x05/\x87ul\xbfi\x98\x19\x03^\x8c\xba\xaa\xe1`\x8c]&\x03\x8f\xe3\x95\x98\x90\xc8\xc7T\xa1^\x97-c\x11\r+_\x1f\xc7\x3e\x9b\xaczL\xa8\x17\x13\xae\xba\xae\xfb\x1cg\x08\xc6\x18=e\xdd\xb0\xd3\r]\xc3\xd5.\x93\x81\xd7)(NOD\xf0h\xc8\xae\xeb\xbeu\x14\xf1\x98i\xda\x82\x9d\xcav\x01\xc3\'\xb9\x93\xc7\\\xfc\x9dn\xcc\xd5\xe9b\xab\xa7*R`\xdd\xaa|\xc0\xc7.\x93{\x3c\xce\x85q\xca\"\xce\xff\xe5\xd0\x83\xd3\x9c\xb6m\x95\xd3?\x9b\xf9*\xde\x9d\xb2M\xf4\\\xa7s\xaa\xd9\xc9P\xd2;4\x9d\xb3\xd5\x13\xf3\x071\xa2\x0cu \x1f\xbb\x3cd\x8c\xbf{\x01\xa0m{\x83\xa9B\xa3n\xc1\xc7v\x01G\x9e2\x99`\xb8.\xe0\xe8\xa6\xb1\xa6\xb9\xbb\xaf\x9e\x98\xd0u]\xa7\x8dH\xb2\r|\xec\xa2\x05\x8fS\r]\xf2\xa2\x9b\x86dY\x06UU\xf5\x89\x9d\xfc{\x15\x984M\xfb\xa5\xd3\xa2(\xb4\xe3\xd2P{l\x97N\xd34\x05\xcey_\x07.\xa1\x16Ea\xe5\xc1\xe8E\xf2\x9c\xde6K7\xe9\x89\xed3\xd9]l\xab\x8f]\xe8\t\x1c\xcb\xec\x9a1v\xe7\x8d\xf4\xe8\xd5\x02\x04\xbd\x1c\x8bMRG\xe0g eYB]\xd7\xb3zd\x8b\xc0\xd3\xc3\x96\x04~\xd1\xe0\xe9M\x1az\x85\x8a\xc0\x13x\x02O\xe0\t\x3c\x81\'\xf0\x04\x3e:\xe3\xb5\x1f_\xd1~\x88\x91\xc0\x8f4\xdej\x7f\x89\xb6\xed\x04\xde\xa3\xe0g\xddb\xfdT\x1b\x81\xf7\x0c\xdd\xf2\xe7\xc2l\xcf\x0beh \xf0\x02\x90\xd5\xfeb\x15\xba\xe5O\xba\xe1\xa7\xc0L\xe7\xa1m6\xe7\xdb\xcb\xf5]\x3c\xf8\xf6\xe3\x0b\xc4}\xf0L\x10\xc5\x10\xef\xf2-^\xd1.X\xc7+?\xea\xb8x\xf0\xaa\xf6\xea\xc0l\x9bnp\xa3D\x84/\xea\x82\x1dKWGHz/.\xd4\xab\x3e\xef)n\x96\x80b\xbb90\xee\xddj\xda$\xe0\x95\xe3=\x81\xff\xdf+u\x80l\xb6\xf8\x18:O\xf7\xffW\x7f\xbb\x97\xc0\x0b\xf0]\x3e\xec\x8bI\x9a\xcb\xc7\xff\xf17!|\xb0\x99\xc0+\x0c\xa2\xf3X\xf1\x7f\"\xbc\xb7\xf7\xcf\xbe\xd3\x0cy\xf9j\x7f\xa1\xe9\\\xc8\x0b8o\xef\x9f\xfd\xaa\x9c\xfc\x11\xdf\xa1\xa9\xd8\xb6\xe9\x00\xb7F\x17e}\xbc\x06\xf7Yv\x02o\xd1\tPl\xdb\x88\x0bA.\xe7\x10x*\x04\x9e\n" + 
+          "\x81\xa7B\xe0\xa9\x10x*O\x05?\xb85\tx\xee2I[\x8a\xbe~\x99\xfa\xe9\xe0CX\xc2\\Zq\xdd\x14\xd2\xb8\xfd\x18xl\x1fN\xdb\x8b\x3e\x7fmb\xf2\r\x07a\xc4\x16\xa3\x14\xee\xc3\r\xf3BT\xd6\x83\xf7M\xf0b}p1\xa6\xe2\xbb!\xa4\xd5\xa6\xc20b\x1bq\xf9A\x06*\xd3B\xf7\x01n\x1a\xdf\xef\xc0\x8f\xd9\xa4^\xbc\x19\x82\x9d\x00\xff&q\x17\xf1\xee\xa1/\xf8!\xe8w\xe0}\xc3\xbd|\xfb\x13\x1f\x80$\xf1\x17\xd3\x83$c\xa6q\xdf\xc0\xa3\xd7\xfbVfz\xc2\x85\xe49\xb63e\xf3J\xf0c\xbc\x9e$\x8cNc\xe3\xed\xdf\xc0\x8f\x19\xebI\xc2\x00o\x03]\t\xdegA\x87$\x0c\xe8\xa6L\xde\x08\xdewzG\x12~\x887\x82\'\xf8\xf3\x85n\x04O\xf0\xe7\t\xdd\n" + 
+          "\x3c\x8e\xf9\xd4\x01\xe2\x1e\xd3\xbd\xc0\x03@\xb2\x3e^?~l\x7f\xff\xa5\x0e\x10\xc6\x3c\xdff\xae\x3e\txa\xba\xf7\xcf\xcf_\x7f\xfe\xca\xaf*\xc9\xaf!O\xbd\x98\x11\xcb\xdfS\xeb+\xda\x19\x97\xc6\xc7\x00\xf7\x06/,\xf6\xfc\xc5\x97\x0c\x87d\xcc\xb2#\x9e\x1f\xc3\xdfcW=\x87l8\x05\xe8\xc9\xc0;D\x88Io\'\x86.S\x3e\x1e\xf5Hy\n" + 
+          "xWc\xc4\x0c\xfe\x99\tZ\xd0\xe0]\xd6\xff_i\x88Wtt\xdb\x1b*Q\x82w1\x86\xcbZs\xec\xe1~\xcc\x1c\x3c\x1a\xf0\xa6\xb5\x00\xccZ\xe7\x00]\x84?\xa4\xef\xab\x87\xb4\x97\x84AY^\xd9\xf3\x97\xaa\xef\xd3+\xdc6\x1dl\xce7X\x1f\xaf\xb09\xdf\x06\x9f\x04\x9d\x83\x84\xaa\xef\xbf\x03\x00\x137#\xc5\xea\xa9Cc\x00\x00\x00\x00IEND\xaeB`\x82\r\n" + 
+          "-----------------------------1481309523119\r\n" + 
+          "Content-Disposition: form-data; name=\"DisplayRank\"\r\n" + 
+          "\r\n" + 
+          "1014\r\n" + 
+          "-----------------------------1481309523119--\r\n";
+        var aBody = new Uint8Array(body.length);
+        for (var i = 0; i < aBody.length; i++)
+          aBody[i] = body.charCodeAt(i); 
+        xhr.send(new Blob([aBody]));
+    </script>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://Vorders.me">Vorder</a>
+            <p>原文链接：<a href="http://Vorders.me/2019/07/15/如何更好的思考自己的工作？/">http://Vorders.me/2019/07/15/如何更好的思考自己的工作？/</a>
+            <p>发表日期：<a href="http://Vorders.me/2019/07/15/如何更好的思考自己的工作？/">七月 15日 2019, 5:20:09 下午</a>
+            <p>更新日期：<a href="http://Vorders.me/2019/07/15/如何更好的思考自己的工作？/">July 16th 2019, 11:13:35 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/07/01/记一次防守总结/" title= "记一次防守总结">
+                    <div class="prevTitle">记一次防守总结</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+    
+        
+            
+                <a href="//github.com/IVorder" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//t.me/@Vorders" class="iconfont-archer telegram" target="_blank" title=telegram></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:45vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#从现在开始，思考你的工作吧！"><span class="toc-number">1.</span> <span class="toc-text">从现在开始，思考你的工作吧！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不要尝试教育猪"><span class="toc-number">2.</span> <span class="toc-text">不要尝试教育猪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何去改进自己的工作呢？"><span class="toc-number">3.</span> <span class="toc-text">如何去改进自己的工作呢？</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 9
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2019/07/15/如何更好的思考自己的工作？/" >如何更好的思考自己的工作？</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2019/07/01/记一次防守总结/" >记一次防守总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2019/03/12/以太坊合约安全top10入门/" >以太坊合约安全top10学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/05</span><a class="archive-post-title" href= "/2019/03/05/semcms-vulnerablity-before-php-v3-7/" >semcms vulnerablity before foregin trade php v3.7</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href= "/2018/12/27/知识索引/" >知识索引</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span><a class="archive-post-title" href= "/2018/12/19/初入elk/" >初入ELK</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2018/11/15/绕过云waf找真实ip/" >绕过cdn找真实ip</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2018/11/06/琐碎知识/" >琐碎知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2018/10/16/vul♂hub学习(二)/" >vul♂hub学习(二)</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
+    
+        <span class="sidebar-tag-name" data-tags="sem-cms"><span class="iconfont-archer">&#xe606;</span>sem-cms</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
+    
+        <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
+    
+        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
+    
+        <span class="sidebar-tag-name" data-tags="hw"><span class="iconfont-archer">&#xe606;</span>hw</span>
+    
+        <span class="sidebar-tag-name" data-tags="vulub"><span class="iconfont-archer">&#xe606;</span>vulub</span>
+    
+        <span class="sidebar-tag-name" data-tags="索引"><span class="iconfont-archer">&#xe606;</span>索引</span>
+    
+        <span class="sidebar-tag-name" data-tags="bypass"><span class="iconfont-archer">&#xe606;</span>bypass</span>
+    
+        <span class="sidebar-tag-name" data-tags="cors"><span class="iconfont-archer">&#xe606;</span>cors</span>
+    
+        <span class="sidebar-tag-name" data-tags="xss bypass"><span class="iconfont-archer">&#xe606;</span>xss bypass</span>
+    
+        <span class="sidebar-tag-name" data-tags="upload file"><span class="iconfont-archer">&#xe606;</span>upload file</span>
+    
+        <span class="sidebar-tag-name" data-tags="webshell bypass"><span class="iconfont-archer">&#xe606;</span>webshell bypass</span>
+    
+        <span class="sidebar-tag-name" data-tags="md5文件伪造"><span class="iconfont-archer">&#xe606;</span>md5文件伪造</span>
+    
+        <span class="sidebar-tag-name" data-tags="flask session"><span class="iconfont-archer">&#xe606;</span>flask session</span>
+    
+        <span class="sidebar-tag-name" data-tags="命令执行bypass"><span class="iconfont-archer">&#xe606;</span>命令执行bypass</span>
+    
+        <span class="sidebar-tag-name" data-tags="反序列化"><span class="iconfont-archer">&#xe606;</span>反序列化</span>
+    
+        <span class="sidebar-tag-name" data-tags="以太坊"><span class="iconfont-archer">&#xe606;</span>以太坊</span>
+    
+        <span class="sidebar-tag-name" data-tags="contract"><span class="iconfont-archer">&#xe606;</span>contract</span>
+    
+        <span class="sidebar-tag-name" data-tags="智能合约"><span class="iconfont-archer">&#xe606;</span>智能合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="合约安全"><span class="iconfont-archer">&#xe606;</span>合约安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Vorder"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

@@ -347,6 +347,41 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/05/18/CVE-2017-7921-海康威视身份认证绕过漏洞/" >
+            
+                <span>CVE-2017-7921 海康威视身份认证绕过漏洞</span>
+        </a>
+        <div class="abstract-content">
+            
+在某次测试过程中发现海康威视设备，同时扫了下存在 CVE-2017-7921漏洞，但描述里没给具体利用方式，翻阅了下外网文档，老外给出了下载配置文件，通过解密配置文件得到明文密码的思路
+
+CVE-2017-7921漏洞描述：Hikvision产品中存在身份验证漏洞。攻击者可利用该漏洞提升权限，获取敏感信息的访问权限
+漏洞利用：http://xxx/Security/users?auth=YWRtaW46MTEK直接访问链接可以查看到系统用户信息，但未包含密码信息YWRtaW46MTEKw为base64加密的admin:1,大概原理就是API支持HikCGI协议，HikCGI协议处理程序...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CVE-2017-7921">CVE-2017-7921</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞利用">漏洞利用</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/05/11/SharkyCTF-合约部分wp/" >
             
                 <span>SharkyCTF 合约部分wp</span>
@@ -364,6 +399,12 @@ Warmup12345678910111213141516171819pragma solidity = 0.4.25;contract Warmup &#12
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/11</span>
             </div>
             <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "合约">合约</a>
+    
+</div>
             
         </div>
     </article>
@@ -573,10 +614,9 @@ Warmup12345678910111213141516171819pragma solidity = 0.4.25;contract Warmup &#12
     
     
     
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 10
+        Total : 11
         </div>
         <!-- search  -->
         
@@ -589,6 +629,11 @@ Warmup12345678910111213141516171819pragma solidity = 0.4.25;contract Warmup &#12
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/18</span><a class="archive-post-title" href= "/2020/05/18/CVE-2017-7921-海康威视身份认证绕过漏洞/" >CVE-2017-7921 海康威视身份认证绕过漏洞</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -663,21 +708,27 @@ Warmup12345678910111213141516171819pragma solidity = 0.4.25;contract Warmup &#12
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="CVE-2017-7921"><span class="iconfont-archer">&#xe606;</span>CVE-2017-7921</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞利用"><span class="iconfont-archer">&#xe606;</span>漏洞利用</span>
+    
         <span class="sidebar-tag-name" data-tags="vulub"><span class="iconfont-archer">&#xe606;</span>vulub</span>
+    
+        <span class="sidebar-tag-name" data-tags="合约"><span class="iconfont-archer">&#xe606;</span>合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
     
         <span class="sidebar-tag-name" data-tags="sem-cms"><span class="iconfont-archer">&#xe606;</span>sem-cms</span>
     
         <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
     
-        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
+        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
+    
+        <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
     
         <span class="sidebar-tag-name" data-tags="主机检测点索引"><span class="iconfont-archer">&#xe606;</span>主机检测点索引</span>
     
         <span class="sidebar-tag-name" data-tags="端口渗透tips"><span class="iconfont-archer">&#xe606;</span>端口渗透tips</span>
-    
-        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
-    
-        <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
     
         <span class="sidebar-tag-name" data-tags="hw"><span class="iconfont-archer">&#xe606;</span>hw</span>
     
@@ -712,6 +763,8 @@ Warmup12345678910111213141516171819pragma solidity = 0.4.25;contract Warmup &#12
         <span class="sidebar-tag-name" data-tags="sqli bypass"><span class="iconfont-archer">&#xe606;</span>sqli bypass</span>
     
         <span class="sidebar-tag-name" data-tags="shellcode bypass"><span class="iconfont-archer">&#xe606;</span>shellcode bypass</span>
+    
+        <span class="sidebar-tag-name" data-tags="configurationFile"><span class="iconfont-archer">&#xe606;</span>configurationFile</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

